@@ -1,0 +1,2904 @@
+
+    <!DOCTYPE html>
+    <html lang="hu">
+    <head>
+        <meta charset="UTF-8">
+        <title>Research Report</title>
+        <style>
+            @media print {
+                .no-print { display: none; }
+                body { font-size: 11pt; background-color: white !important; margin: 0; }
+                .card { box-shadow: none !important; border: 1px solid #eee !important; page-break-inside: avoid; }
+            }
+
+            body { 
+                font-family: 'Segoe UI', Helvetica, Arial, sans-serif; 
+                line-height: 1.5; 
+                color: #2c3e50; 
+                max-width: 1100px; 
+                margin: 0 auto; 
+                padding: 40px;
+                background-color: #f4f7f9;
+            }
+
+            .header-main {
+                text-align: center;
+                border-bottom: 3px solid #2c3e50;
+                margin-bottom: 30px;
+                padding-bottom: 10px;
+            }
+
+            .header-main h1 { 
+                margin: 0; 
+                text-transform: uppercase; 
+                letter-spacing: 2px;
+                font-size: 28px;
+            }
+
+            .grid-container {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 20px;
+                margin-bottom: 30px;
+            }
+
+            .info-card {
+                background: white;
+                padding: 20px;
+                border-radius: 8px;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+                border-top: 4px solid #34495e;
+            }
+
+            .params-card {
+                background: white;
+                padding: 20px;
+                border-radius: 8px;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+                border-top: 4px solid #3498db;
+            }
+
+            .label { 
+                font-weight: bold; 
+                color: #7f8c8d; 
+                text-transform: uppercase; 
+                font-size: 10px; 
+                display: block;
+                margin-bottom: 2px;
+            }
+
+            .value { font-size: 15px; margin-bottom: 10px; display: block; }
+
+            .card {
+                background: white;
+                padding: 25px;
+                border-radius: 8px;
+                box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+                margin-bottom: 25px;
+            }
+
+            h2 { color: #2c3e50; border-left: 5px solid #3498db; padding-left: 15px; margin-top: 40px; }
+            h3 { color: #2980b9; font-size: 18px; margin-top: 20px; border-bottom: 1px solid #eee; padding-bottom: 5px; }
+
+            pre { 
+                background: #f8f9fa; 
+                padding: 15px; 
+                border-radius: 4px; 
+                font-size: 12px;
+                border: 1px solid #eaedf0;
+                white-space: pre-wrap;
+            }
+
+            .img-container { text-align: center; margin: 20px 0; }
+            .img-container img { 
+                max-width: 100%; 
+                border-radius: 4px; 
+                border: 1px solid #ddd;
+            }
+
+            .footer-text {
+                text-align: center;
+                font-size: 12px;
+                color: #bdc3c7;
+                margin-top: 50px;
+            }
+        </style>
+    </head>
+    <body>
+
+    <div class="header-main">
+        <h1>--- Research Report ---</h1>
+        <p style="color: #7f8c8d; margin-top: 5px;">Home Weather Station Prediction</p>
+    </div>
+
+    <div class="grid-container">
+        <div class="info-card">
+            <span class="label">Researcher's name</span>
+            <span class="value">Bagi Béla</span>
+
+            <span class="label">Institution</span>
+            <span class="value">University of Miskolc - Institute of Physics and Electrical Engineering</span>
+
+            <span class="label">Project / Version</span>
+            <span class="value">Home Weather Station Prediction <span style="color:#3498db;">[v1.0]</span></span>
+        </div>
+
+        <div class="params-card">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                <div>
+                    <span class="label">Report ID (Test)</span>
+                    <span class="value" style="font-weight:bold;">test_015</span>
+
+                    <span class="label">Generation date</span>
+                    <span class="value">2026-04-29 11:37</span>
+                </div>
+                <div>
+                    <span class="label">Epoch number</span>
+                    <span class="value">10</span>
+
+                    <span class="label">Mask Probability</span>
+                    <span class="value">0.0</span>
+                </div>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; border-top: 1px solid #eee; pt: 10px; margin-top: 5px;">
+                <div>
+                    <span class="label">Input Window</span>
+                    <span class="value">336</span>
+                </div>
+                <div>
+                    <span class="label">Output Horizon</span>
+                    <span class="value">96</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <h3>Model configuration</h3>
+        <span class="label">Features (Inputs)</span>
+        <div style="font-size: 13px; background: #fdfdfd; padding: 10px; border: 1px solid #f0f0f0;">['temp_c', 'dewpoint_c', 'rh', 'wind_speed', 'wind_dir', 'sp_hpa', 'tp', 'skt_c', 'ssrd_wm2', 'fg10_kmh', 'hour_sin', 'hour_cos', 'year_sin', 'year_cos', 'time_linear']</div>
+        <div style="margin-top:15px;">
+            <span class="label">Target Columns</span>
+            <code>['temp_c', 'rh', 'ssrd_wm2']</code>
+        </div>
+        <div style="margin-top:15px;">
+            <span class="label">Extra Columns (Exceptions to masking.)</span>
+            <code>['hour_sin', 'hour_cos', 'year_sin', 'year_cos', 'time_linear']</code>
+        </div>
+    </div>
+
+    <h2>Overall results</h2>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+        <div class="card">
+            <h3>TCN Overall</h3>
+            <pre>{'mse': 302.3829345703125, 'mae': 7.377897262573242, 'rmse': 17.38916141078438}</pre>
+        </div>
+    </div>
+    <h2>Detailed Target metrics</h2>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+    <div class="card">
+        <h3>TCN (Target)</h3>
+        <pre>{'temp_c': {'mae': 1.4223774671554565, 'rmse': 1.8949502697863547}, 'rh': {'mae': 5.805634498596191, 'rmse': 7.905596920979589}, 'ssrd_wm2': {'mae': 14.905680656433105, 'rmse': 29.00102389928727}}</pre>
+    </div>
+    </div>
+
+    <h2>Detailed Horizon metrics</h2>
+    <span class="label">Comment:</span>
+    <span class="value" style="font-family: monospace; font-size: 11px; color: #7f8c8d;">It shows how accurate the model is for different forecast distances. (Horizon in hours)</span>
+    <div style="display: flex; gap: 20px; overflow-x: auto;">
+    <div class="card">
+        
+    <h3>TCN Horizon metrics</h3>
+    <table border="1" cellspacing="0" cellpadding="4">
+        <tr>
+            <th>Horizon</th>
+            <th>MAE</th>
+            <th>RMSE</th>
+        </tr>
+        
+        <tr>
+            <td>1</td>
+            <td>4.0787</td>
+            <td>10.3149</td>
+        </tr>
+        
+        <tr>
+            <td>2</td>
+            <td>4.4311</td>
+            <td>11.9432</td>
+        </tr>
+        
+        <tr>
+            <td>3</td>
+            <td>4.5051</td>
+            <td>13.2562</td>
+        </tr>
+        
+        <tr>
+            <td>4</td>
+            <td>5.0921</td>
+            <td>14.5490</td>
+        </tr>
+        
+        <tr>
+            <td>5</td>
+            <td>5.5124</td>
+            <td>15.0893</td>
+        </tr>
+        
+        <tr>
+            <td>6</td>
+            <td>5.8471</td>
+            <td>15.5972</td>
+        </tr>
+        
+        <tr>
+            <td>7</td>
+            <td>6.3784</td>
+            <td>16.1993</td>
+        </tr>
+        
+        <tr>
+            <td>8</td>
+            <td>6.1906</td>
+            <td>16.0891</td>
+        </tr>
+        
+        <tr>
+            <td>9</td>
+            <td>6.5240</td>
+            <td>16.2523</td>
+        </tr>
+        
+        <tr>
+            <td>10</td>
+            <td>7.0970</td>
+            <td>16.7786</td>
+        </tr>
+        
+        <tr>
+            <td>11</td>
+            <td>6.9003</td>
+            <td>16.6693</td>
+        </tr>
+        
+        <tr>
+            <td>12</td>
+            <td>6.7050</td>
+            <td>16.4777</td>
+        </tr>
+        
+        <tr>
+            <td>13</td>
+            <td>6.5590</td>
+            <td>16.4920</td>
+        </tr>
+        
+        <tr>
+            <td>14</td>
+            <td>6.7475</td>
+            <td>16.5358</td>
+        </tr>
+        
+        <tr>
+            <td>15</td>
+            <td>6.5806</td>
+            <td>16.4882</td>
+        </tr>
+        
+        <tr>
+            <td>16</td>
+            <td>6.3850</td>
+            <td>16.6032</td>
+        </tr>
+        
+        <tr>
+            <td>17</td>
+            <td>6.5301</td>
+            <td>16.6798</td>
+        </tr>
+        
+        <tr>
+            <td>18</td>
+            <td>6.7219</td>
+            <td>17.0608</td>
+        </tr>
+        
+        <tr>
+            <td>19</td>
+            <td>7.0637</td>
+            <td>17.2877</td>
+        </tr>
+        
+        <tr>
+            <td>20</td>
+            <td>6.8620</td>
+            <td>16.9996</td>
+        </tr>
+        
+        <tr>
+            <td>21</td>
+            <td>6.7336</td>
+            <td>16.5764</td>
+        </tr>
+        
+        <tr>
+            <td>22</td>
+            <td>6.5094</td>
+            <td>16.3829</td>
+        </tr>
+        
+        <tr>
+            <td>23</td>
+            <td>6.9356</td>
+            <td>16.7365</td>
+        </tr>
+        
+        <tr>
+            <td>24</td>
+            <td>6.8615</td>
+            <td>16.6391</td>
+        </tr>
+        
+        <tr>
+            <td>25</td>
+            <td>6.8039</td>
+            <td>16.6284</td>
+        </tr>
+        
+        <tr>
+            <td>26</td>
+            <td>6.6602</td>
+            <td>16.5283</td>
+        </tr>
+        
+        <tr>
+            <td>27</td>
+            <td>6.5773</td>
+            <td>16.5281</td>
+        </tr>
+        
+        <tr>
+            <td>28</td>
+            <td>6.9869</td>
+            <td>16.9155</td>
+        </tr>
+        
+        <tr>
+            <td>29</td>
+            <td>6.9477</td>
+            <td>16.9559</td>
+        </tr>
+        
+        <tr>
+            <td>30</td>
+            <td>7.3754</td>
+            <td>17.4795</td>
+        </tr>
+        
+        <tr>
+            <td>31</td>
+            <td>7.7489</td>
+            <td>17.9180</td>
+        </tr>
+        
+        <tr>
+            <td>32</td>
+            <td>7.2494</td>
+            <td>17.4624</td>
+        </tr>
+        
+        <tr>
+            <td>33</td>
+            <td>8.2532</td>
+            <td>18.2021</td>
+        </tr>
+        
+        <tr>
+            <td>34</td>
+            <td>9.1235</td>
+            <td>19.1590</td>
+        </tr>
+        
+        <tr>
+            <td>35</td>
+            <td>8.5020</td>
+            <td>18.6466</td>
+        </tr>
+        
+        <tr>
+            <td>36</td>
+            <td>8.1698</td>
+            <td>18.2433</td>
+        </tr>
+        
+        <tr>
+            <td>37</td>
+            <td>7.4218</td>
+            <td>17.6399</td>
+        </tr>
+        
+        <tr>
+            <td>38</td>
+            <td>7.2875</td>
+            <td>17.3197</td>
+        </tr>
+        
+        <tr>
+            <td>39</td>
+            <td>7.2270</td>
+            <td>17.2925</td>
+        </tr>
+        
+        <tr>
+            <td>40</td>
+            <td>6.9953</td>
+            <td>17.3061</td>
+        </tr>
+        
+        <tr>
+            <td>41</td>
+            <td>6.9084</td>
+            <td>17.2821</td>
+        </tr>
+        
+        <tr>
+            <td>42</td>
+            <td>7.2281</td>
+            <td>17.6769</td>
+        </tr>
+        
+        <tr>
+            <td>43</td>
+            <td>7.3848</td>
+            <td>17.8469</td>
+        </tr>
+        
+        <tr>
+            <td>44</td>
+            <td>7.2289</td>
+            <td>17.6183</td>
+        </tr>
+        
+        <tr>
+            <td>45</td>
+            <td>7.0330</td>
+            <td>17.2313</td>
+        </tr>
+        
+        <tr>
+            <td>46</td>
+            <td>7.2969</td>
+            <td>17.3798</td>
+        </tr>
+        
+        <tr>
+            <td>47</td>
+            <td>7.6116</td>
+            <td>17.5761</td>
+        </tr>
+        
+        <tr>
+            <td>48</td>
+            <td>7.3004</td>
+            <td>17.2890</td>
+        </tr>
+        
+        <tr>
+            <td>49</td>
+            <td>7.2291</td>
+            <td>17.1756</td>
+        </tr>
+        
+        <tr>
+            <td>50</td>
+            <td>7.2800</td>
+            <td>17.1598</td>
+        </tr>
+        
+        <tr>
+            <td>51</td>
+            <td>7.1804</td>
+            <td>17.1943</td>
+        </tr>
+        
+        <tr>
+            <td>52</td>
+            <td>7.3581</td>
+            <td>17.3920</td>
+        </tr>
+        
+        <tr>
+            <td>53</td>
+            <td>7.3672</td>
+            <td>17.3368</td>
+        </tr>
+        
+        <tr>
+            <td>54</td>
+            <td>7.6181</td>
+            <td>17.6438</td>
+        </tr>
+        
+        <tr>
+            <td>55</td>
+            <td>8.0481</td>
+            <td>18.0595</td>
+        </tr>
+        
+        <tr>
+            <td>56</td>
+            <td>7.7268</td>
+            <td>17.8137</td>
+        </tr>
+        
+        <tr>
+            <td>57</td>
+            <td>8.2347</td>
+            <td>18.1816</td>
+        </tr>
+        
+        <tr>
+            <td>58</td>
+            <td>8.7174</td>
+            <td>18.6767</td>
+        </tr>
+        
+        <tr>
+            <td>59</td>
+            <td>8.4581</td>
+            <td>18.6386</td>
+        </tr>
+        
+        <tr>
+            <td>60</td>
+            <td>8.3502</td>
+            <td>18.5355</td>
+        </tr>
+        
+        <tr>
+            <td>61</td>
+            <td>8.1181</td>
+            <td>18.3570</td>
+        </tr>
+        
+        <tr>
+            <td>62</td>
+            <td>7.9148</td>
+            <td>17.9333</td>
+        </tr>
+        
+        <tr>
+            <td>63</td>
+            <td>7.7325</td>
+            <td>17.6658</td>
+        </tr>
+        
+        <tr>
+            <td>64</td>
+            <td>7.4062</td>
+            <td>17.5338</td>
+        </tr>
+        
+        <tr>
+            <td>65</td>
+            <td>7.5470</td>
+            <td>17.6394</td>
+        </tr>
+        
+        <tr>
+            <td>66</td>
+            <td>7.5181</td>
+            <td>17.7551</td>
+        </tr>
+        
+        <tr>
+            <td>67</td>
+            <td>7.4235</td>
+            <td>17.7456</td>
+        </tr>
+        
+        <tr>
+            <td>68</td>
+            <td>7.2246</td>
+            <td>17.4978</td>
+        </tr>
+        
+        <tr>
+            <td>69</td>
+            <td>7.1705</td>
+            <td>17.4093</td>
+        </tr>
+        
+        <tr>
+            <td>70</td>
+            <td>7.8556</td>
+            <td>17.8745</td>
+        </tr>
+        
+        <tr>
+            <td>71</td>
+            <td>8.1812</td>
+            <td>18.2255</td>
+        </tr>
+        
+        <tr>
+            <td>72</td>
+            <td>8.2023</td>
+            <td>18.0254</td>
+        </tr>
+        
+        <tr>
+            <td>73</td>
+            <td>8.0020</td>
+            <td>17.8046</td>
+        </tr>
+        
+        <tr>
+            <td>74</td>
+            <td>7.8361</td>
+            <td>17.7366</td>
+        </tr>
+        
+        <tr>
+            <td>75</td>
+            <td>7.8521</td>
+            <td>17.9328</td>
+        </tr>
+        
+        <tr>
+            <td>76</td>
+            <td>8.0062</td>
+            <td>18.1230</td>
+        </tr>
+        
+        <tr>
+            <td>77</td>
+            <td>7.9539</td>
+            <td>18.0570</td>
+        </tr>
+        
+        <tr>
+            <td>78</td>
+            <td>7.9471</td>
+            <td>18.0618</td>
+        </tr>
+        
+        <tr>
+            <td>79</td>
+            <td>8.1393</td>
+            <td>18.2746</td>
+        </tr>
+        
+        <tr>
+            <td>80</td>
+            <td>7.7507</td>
+            <td>17.9633</td>
+        </tr>
+        
+        <tr>
+            <td>81</td>
+            <td>8.2966</td>
+            <td>18.2421</td>
+        </tr>
+        
+        <tr>
+            <td>82</td>
+            <td>9.0200</td>
+            <td>18.9331</td>
+        </tr>
+        
+        <tr>
+            <td>83</td>
+            <td>8.8664</td>
+            <td>19.0104</td>
+        </tr>
+        
+        <tr>
+            <td>84</td>
+            <td>8.8023</td>
+            <td>18.9047</td>
+        </tr>
+        
+        <tr>
+            <td>85</td>
+            <td>8.5880</td>
+            <td>18.7626</td>
+        </tr>
+        
+        <tr>
+            <td>86</td>
+            <td>8.1845</td>
+            <td>18.2073</td>
+        </tr>
+        
+        <tr>
+            <td>87</td>
+            <td>8.0962</td>
+            <td>18.0841</td>
+        </tr>
+        
+        <tr>
+            <td>88</td>
+            <td>7.6864</td>
+            <td>17.8596</td>
+        </tr>
+        
+        <tr>
+            <td>89</td>
+            <td>7.5588</td>
+            <td>17.7654</td>
+        </tr>
+        
+        <tr>
+            <td>90</td>
+            <td>7.6072</td>
+            <td>17.7856</td>
+        </tr>
+        
+        <tr>
+            <td>91</td>
+            <td>7.7015</td>
+            <td>17.8046</td>
+        </tr>
+        
+        <tr>
+            <td>92</td>
+            <td>7.7002</td>
+            <td>17.7453</td>
+        </tr>
+        
+        <tr>
+            <td>93</td>
+            <td>7.8374</td>
+            <td>17.9240</td>
+        </tr>
+        
+        <tr>
+            <td>94</td>
+            <td>8.4430</td>
+            <td>18.6334</td>
+        </tr>
+        
+        <tr>
+            <td>95</td>
+            <td>8.6804</td>
+            <td>18.9027</td>
+        </tr>
+        
+        <tr>
+            <td>96</td>
+            <td>8.7857</td>
+            <td>18.7915</td>
+        </tr>
+        
+    </table>
+    
+    </div>
+    <div class="card">
+        
+    <h3>TCN Horizon per Target</h3>
+    <table border="1" cellspacing="0" cellpadding="4">
+        <tr>
+            <th>Target</th>
+            <th>Horizon</th>
+            <th>MAE</th>
+            <th>RMSE</th>
+        </tr>
+        
+            <tr>
+                <td>temp_c</td>
+                <td>1</td>
+                <td>0.7762</td>
+                <td>0.9794</td>
+            </tr>
+            
+            <tr>
+                <td>temp_c</td>
+                <td>2</td>
+                <td>0.7932</td>
+                <td>1.0134</td>
+            </tr>
+            
+            <tr>
+                <td>temp_c</td>
+                <td>3</td>
+                <td>0.9090</td>
+                <td>1.1538</td>
+            </tr>
+            
+            <tr>
+                <td>temp_c</td>
+                <td>4</td>
+                <td>0.9835</td>
+                <td>1.2447</td>
+            </tr>
+            
+            <tr>
+                <td>temp_c</td>
+                <td>5</td>
+                <td>1.0324</td>
+                <td>1.2998</td>
+            </tr>
+            
+            <tr>
+                <td>temp_c</td>
+                <td>6</td>
+                <td>1.0768</td>
+                <td>1.3696</td>
+            </tr>
+            
+            <tr>
+                <td>temp_c</td>
+                <td>7</td>
+                <td>1.1185</td>
+                <td>1.4190</td>
+            </tr>
+            
+            <tr>
+                <td>temp_c</td>
+                <td>8</td>
+                <td>1.0691</td>
+                <td>1.3807</td>
+            </tr>
+            
+            <tr>
+                <td>temp_c</td>
+                <td>9</td>
+                <td>1.1506</td>
+                <td>1.4827</td>
+            </tr>
+            
+            <tr>
+                <td>temp_c</td>
+                <td>10</td>
+                <td>1.1354</td>
+                <td>1.4806</td>
+            </tr>
+            
+            <tr>
+                <td>temp_c</td>
+                <td>11</td>
+                <td>1.0956</td>
+                <td>1.4520</td>
+            </tr>
+            
+            <tr>
+                <td>temp_c</td>
+                <td>12</td>
+                <td>1.0846</td>
+                <td>1.4413</td>
+            </tr>
+            
+            <tr>
+                <td>temp_c</td>
+                <td>13</td>
+                <td>1.0732</td>
+                <td>1.4167</td>
+            </tr>
+            
+            <tr>
+                <td>temp_c</td>
+                <td>14</td>
+                <td>1.0997</td>
+                <td>1.4388</td>
+            </tr>
+            
+            <tr>
+                <td>temp_c</td>
+                <td>15</td>
+                <td>1.0886</td>
+                <td>1.4250</td>
+            </tr>
+            
+            <tr>
+                <td>temp_c</td>
+                <td>16</td>
+                <td>1.0890</td>
+                <td>1.4218</td>
+            </tr>
+            
+            <tr>
+                <td>temp_c</td>
+                <td>17</td>
+                <td>1.0776</td>
+                <td>1.4103</td>
+            </tr>
+            
+            <tr>
+                <td>temp_c</td>
+                <td>18</td>
+                <td>1.0783</td>
+                <td>1.4189</td>
+            </tr>
+            
+            <tr>
+                <td>temp_c</td>
+                <td>19</td>
+                <td>1.1034</td>
+                <td>1.4525</td>
+            </tr>
+            
+            <tr>
+                <td>temp_c</td>
+                <td>20</td>
+                <td>1.1247</td>
+                <td>1.4752</td>
+            </tr>
+            
+            <tr>
+                <td>temp_c</td>
+                <td>21</td>
+                <td>1.1268</td>
+                <td>1.4767</td>
+            </tr>
+            
+            <tr>
+                <td>temp_c</td>
+                <td>22</td>
+                <td>1.1624</td>
+                <td>1.5143</td>
+            </tr>
+            
+            <tr>
+                <td>temp_c</td>
+                <td>23</td>
+                <td>1.1976</td>
+                <td>1.5570</td>
+            </tr>
+            
+            <tr>
+                <td>temp_c</td>
+                <td>24</td>
+                <td>1.2063</td>
+                <td>1.5673</td>
+            </tr>
+            
+            <tr>
+                <td>temp_c</td>
+                <td>25</td>
+                <td>1.2076</td>
+                <td>1.5749</td>
+            </tr>
+            
+            <tr>
+                <td>temp_c</td>
+                <td>26</td>
+                <td>1.2432</td>
+                <td>1.6215</td>
+            </tr>
+            
+            <tr>
+                <td>temp_c</td>
+                <td>27</td>
+                <td>1.2852</td>
+                <td>1.6780</td>
+            </tr>
+            
+            <tr>
+                <td>temp_c</td>
+                <td>28</td>
+                <td>1.3160</td>
+                <td>1.7260</td>
+            </tr>
+            
+            <tr>
+                <td>temp_c</td>
+                <td>29</td>
+                <td>1.3390</td>
+                <td>1.7550</td>
+            </tr>
+            
+            <tr>
+                <td>temp_c</td>
+                <td>30</td>
+                <td>1.3833</td>
+                <td>1.8121</td>
+            </tr>
+            
+            <tr>
+                <td>temp_c</td>
+                <td>31</td>
+                <td>1.4338</td>
+                <td>1.8628</td>
+            </tr>
+            
+            <tr>
+                <td>temp_c</td>
+                <td>32</td>
+                <td>1.3788</td>
+                <td>1.8123</td>
+            </tr>
+            
+            <tr>
+                <td>temp_c</td>
+                <td>33</td>
+                <td>1.4415</td>
+                <td>1.8877</td>
+            </tr>
+            
+            <tr>
+                <td>temp_c</td>
+                <td>34</td>
+                <td>1.4340</td>
+                <td>1.8884</td>
+            </tr>
+            
+            <tr>
+                <td>temp_c</td>
+                <td>35</td>
+                <td>1.4277</td>
+                <td>1.8870</td>
+            </tr>
+            
+            <tr>
+                <td>temp_c</td>
+                <td>36</td>
+                <td>1.4159</td>
+                <td>1.8737</td>
+            </tr>
+            
+            <tr>
+                <td>temp_c</td>
+                <td>37</td>
+                <td>1.4020</td>
+                <td>1.8626</td>
+            </tr>
+            
+            <tr>
+                <td>temp_c</td>
+                <td>38</td>
+                <td>1.4033</td>
+                <td>1.8628</td>
+            </tr>
+            
+            <tr>
+                <td>temp_c</td>
+                <td>39</td>
+                <td>1.3997</td>
+                <td>1.8661</td>
+            </tr>
+            
+            <tr>
+                <td>temp_c</td>
+                <td>40</td>
+                <td>1.4061</td>
+                <td>1.8754</td>
+            </tr>
+            
+            <tr>
+                <td>temp_c</td>
+                <td>41</td>
+                <td>1.3993</td>
+                <td>1.8723</td>
+            </tr>
+            
+            <tr>
+                <td>temp_c</td>
+                <td>42</td>
+                <td>1.4100</td>
+                <td>1.8935</td>
+            </tr>
+            
+            <tr>
+                <td>temp_c</td>
+                <td>43</td>
+                <td>1.4219</td>
+                <td>1.9035</td>
+            </tr>
+            
+            <tr>
+                <td>temp_c</td>
+                <td>44</td>
+                <td>1.4195</td>
+                <td>1.9005</td>
+            </tr>
+            
+            <tr>
+                <td>temp_c</td>
+                <td>45</td>
+                <td>1.4312</td>
+                <td>1.9136</td>
+            </tr>
+            
+            <tr>
+                <td>temp_c</td>
+                <td>46</td>
+                <td>1.4435</td>
+                <td>1.9278</td>
+            </tr>
+            
+            <tr>
+                <td>temp_c</td>
+                <td>47</td>
+                <td>1.4610</td>
+                <td>1.9446</td>
+            </tr>
+            
+            <tr>
+                <td>temp_c</td>
+                <td>48</td>
+                <td>1.4707</td>
+                <td>1.9533</td>
+            </tr>
+            
+            <tr>
+                <td>temp_c</td>
+                <td>49</td>
+                <td>1.4691</td>
+                <td>1.9584</td>
+            </tr>
+            
+            <tr>
+                <td>temp_c</td>
+                <td>50</td>
+                <td>1.4743</td>
+                <td>1.9682</td>
+            </tr>
+            
+            <tr>
+                <td>temp_c</td>
+                <td>51</td>
+                <td>1.5165</td>
+                <td>2.0025</td>
+            </tr>
+            
+            <tr>
+                <td>temp_c</td>
+                <td>52</td>
+                <td>1.5205</td>
+                <td>2.0125</td>
+            </tr>
+            
+            <tr>
+                <td>temp_c</td>
+                <td>53</td>
+                <td>1.5201</td>
+                <td>2.0169</td>
+            </tr>
+            
+            <tr>
+                <td>temp_c</td>
+                <td>54</td>
+                <td>1.5359</td>
+                <td>2.0389</td>
+            </tr>
+            
+            <tr>
+                <td>temp_c</td>
+                <td>55</td>
+                <td>1.5541</td>
+                <td>2.0549</td>
+            </tr>
+            
+            <tr>
+                <td>temp_c</td>
+                <td>56</td>
+                <td>1.5474</td>
+                <td>2.0567</td>
+            </tr>
+            
+            <tr>
+                <td>temp_c</td>
+                <td>57</td>
+                <td>1.5780</td>
+                <td>2.0892</td>
+            </tr>
+            
+            <tr>
+                <td>temp_c</td>
+                <td>58</td>
+                <td>1.5712</td>
+                <td>2.0874</td>
+            </tr>
+            
+            <tr>
+                <td>temp_c</td>
+                <td>59</td>
+                <td>1.5801</td>
+                <td>2.0963</td>
+            </tr>
+            
+            <tr>
+                <td>temp_c</td>
+                <td>60</td>
+                <td>1.5812</td>
+                <td>2.0951</td>
+            </tr>
+            
+            <tr>
+                <td>temp_c</td>
+                <td>61</td>
+                <td>1.5792</td>
+                <td>2.0944</td>
+            </tr>
+            
+            <tr>
+                <td>temp_c</td>
+                <td>62</td>
+                <td>1.5893</td>
+                <td>2.0957</td>
+            </tr>
+            
+            <tr>
+                <td>temp_c</td>
+                <td>63</td>
+                <td>1.5912</td>
+                <td>2.0973</td>
+            </tr>
+            
+            <tr>
+                <td>temp_c</td>
+                <td>64</td>
+                <td>1.6003</td>
+                <td>2.1033</td>
+            </tr>
+            
+            <tr>
+                <td>temp_c</td>
+                <td>65</td>
+                <td>1.5978</td>
+                <td>2.1014</td>
+            </tr>
+            
+            <tr>
+                <td>temp_c</td>
+                <td>66</td>
+                <td>1.5960</td>
+                <td>2.1062</td>
+            </tr>
+            
+            <tr>
+                <td>temp_c</td>
+                <td>67</td>
+                <td>1.6104</td>
+                <td>2.1139</td>
+            </tr>
+            
+            <tr>
+                <td>temp_c</td>
+                <td>68</td>
+                <td>1.6114</td>
+                <td>2.1143</td>
+            </tr>
+            
+            <tr>
+                <td>temp_c</td>
+                <td>69</td>
+                <td>1.6111</td>
+                <td>2.1172</td>
+            </tr>
+            
+            <tr>
+                <td>temp_c</td>
+                <td>70</td>
+                <td>1.6170</td>
+                <td>2.1220</td>
+            </tr>
+            
+            <tr>
+                <td>temp_c</td>
+                <td>71</td>
+                <td>1.6290</td>
+                <td>2.1314</td>
+            </tr>
+            
+            <tr>
+                <td>temp_c</td>
+                <td>72</td>
+                <td>1.6345</td>
+                <td>2.1352</td>
+            </tr>
+            
+            <tr>
+                <td>temp_c</td>
+                <td>73</td>
+                <td>1.6249</td>
+                <td>2.1336</td>
+            </tr>
+            
+            <tr>
+                <td>temp_c</td>
+                <td>74</td>
+                <td>1.6221</td>
+                <td>2.1336</td>
+            </tr>
+            
+            <tr>
+                <td>temp_c</td>
+                <td>75</td>
+                <td>1.6342</td>
+                <td>2.1456</td>
+            </tr>
+            
+            <tr>
+                <td>temp_c</td>
+                <td>76</td>
+                <td>1.6327</td>
+                <td>2.1491</td>
+            </tr>
+            
+            <tr>
+                <td>temp_c</td>
+                <td>77</td>
+                <td>1.6412</td>
+                <td>2.1542</td>
+            </tr>
+            
+            <tr>
+                <td>temp_c</td>
+                <td>78</td>
+                <td>1.6578</td>
+                <td>2.1686</td>
+            </tr>
+            
+            <tr>
+                <td>temp_c</td>
+                <td>79</td>
+                <td>1.6660</td>
+                <td>2.1746</td>
+            </tr>
+            
+            <tr>
+                <td>temp_c</td>
+                <td>80</td>
+                <td>1.6423</td>
+                <td>2.1616</td>
+            </tr>
+            
+            <tr>
+                <td>temp_c</td>
+                <td>81</td>
+                <td>1.6654</td>
+                <td>2.1853</td>
+            </tr>
+            
+            <tr>
+                <td>temp_c</td>
+                <td>82</td>
+                <td>1.6723</td>
+                <td>2.1933</td>
+            </tr>
+            
+            <tr>
+                <td>temp_c</td>
+                <td>83</td>
+                <td>1.6833</td>
+                <td>2.2027</td>
+            </tr>
+            
+            <tr>
+                <td>temp_c</td>
+                <td>84</td>
+                <td>1.6898</td>
+                <td>2.2032</td>
+            </tr>
+            
+            <tr>
+                <td>temp_c</td>
+                <td>85</td>
+                <td>1.6740</td>
+                <td>2.1840</td>
+            </tr>
+            
+            <tr>
+                <td>temp_c</td>
+                <td>86</td>
+                <td>1.6658</td>
+                <td>2.1744</td>
+            </tr>
+            
+            <tr>
+                <td>temp_c</td>
+                <td>87</td>
+                <td>1.6638</td>
+                <td>2.1751</td>
+            </tr>
+            
+            <tr>
+                <td>temp_c</td>
+                <td>88</td>
+                <td>1.6656</td>
+                <td>2.1762</td>
+            </tr>
+            
+            <tr>
+                <td>temp_c</td>
+                <td>89</td>
+                <td>1.6597</td>
+                <td>2.1715</td>
+            </tr>
+            
+            <tr>
+                <td>temp_c</td>
+                <td>90</td>
+                <td>1.6579</td>
+                <td>2.1746</td>
+            </tr>
+            
+            <tr>
+                <td>temp_c</td>
+                <td>91</td>
+                <td>1.6606</td>
+                <td>2.1729</td>
+            </tr>
+            
+            <tr>
+                <td>temp_c</td>
+                <td>92</td>
+                <td>1.6731</td>
+                <td>2.1774</td>
+            </tr>
+            
+            <tr>
+                <td>temp_c</td>
+                <td>93</td>
+                <td>1.6702</td>
+                <td>2.1764</td>
+            </tr>
+            
+            <tr>
+                <td>temp_c</td>
+                <td>94</td>
+                <td>1.6626</td>
+                <td>2.1721</td>
+            </tr>
+            
+            <tr>
+                <td>temp_c</td>
+                <td>95</td>
+                <td>1.6576</td>
+                <td>2.1696</td>
+            </tr>
+            
+            <tr>
+                <td>temp_c</td>
+                <td>96</td>
+                <td>1.6630</td>
+                <td>2.1743</td>
+            </tr>
+            
+            <tr>
+                <td>rh</td>
+                <td>1</td>
+                <td>1.2795</td>
+                <td>1.7160</td>
+            </tr>
+            
+            <tr>
+                <td>rh</td>
+                <td>2</td>
+                <td>1.6839</td>
+                <td>2.3389</td>
+            </tr>
+            
+            <tr>
+                <td>rh</td>
+                <td>3</td>
+                <td>2.0489</td>
+                <td>2.8915</td>
+            </tr>
+            
+            <tr>
+                <td>rh</td>
+                <td>4</td>
+                <td>2.3662</td>
+                <td>3.3477</td>
+            </tr>
+            
+            <tr>
+                <td>rh</td>
+                <td>5</td>
+                <td>2.6813</td>
+                <td>3.7500</td>
+            </tr>
+            
+            <tr>
+                <td>rh</td>
+                <td>6</td>
+                <td>2.8868</td>
+                <td>4.0446</td>
+            </tr>
+            
+            <tr>
+                <td>rh</td>
+                <td>7</td>
+                <td>3.0626</td>
+                <td>4.2968</td>
+            </tr>
+            
+            <tr>
+                <td>rh</td>
+                <td>8</td>
+                <td>3.1989</td>
+                <td>4.5238</td>
+            </tr>
+            
+            <tr>
+                <td>rh</td>
+                <td>9</td>
+                <td>3.4056</td>
+                <td>4.7799</td>
+            </tr>
+            
+            <tr>
+                <td>rh</td>
+                <td>10</td>
+                <td>3.5638</td>
+                <td>4.9789</td>
+            </tr>
+            
+            <tr>
+                <td>rh</td>
+                <td>11</td>
+                <td>3.7300</td>
+                <td>5.1683</td>
+            </tr>
+            
+            <tr>
+                <td>rh</td>
+                <td>12</td>
+                <td>3.9039</td>
+                <td>5.3612</td>
+            </tr>
+            
+            <tr>
+                <td>rh</td>
+                <td>13</td>
+                <td>4.0327</td>
+                <td>5.5123</td>
+            </tr>
+            
+            <tr>
+                <td>rh</td>
+                <td>14</td>
+                <td>4.2264</td>
+                <td>5.7130</td>
+            </tr>
+            
+            <tr>
+                <td>rh</td>
+                <td>15</td>
+                <td>4.3955</td>
+                <td>5.8995</td>
+            </tr>
+            
+            <tr>
+                <td>rh</td>
+                <td>16</td>
+                <td>4.4726</td>
+                <td>6.0014</td>
+            </tr>
+            
+            <tr>
+                <td>rh</td>
+                <td>17</td>
+                <td>4.6061</td>
+                <td>6.1560</td>
+            </tr>
+            
+            <tr>
+                <td>rh</td>
+                <td>18</td>
+                <td>4.6357</td>
+                <td>6.2428</td>
+            </tr>
+            
+            <tr>
+                <td>rh</td>
+                <td>19</td>
+                <td>4.7775</td>
+                <td>6.4259</td>
+            </tr>
+            
+            <tr>
+                <td>rh</td>
+                <td>20</td>
+                <td>4.8869</td>
+                <td>6.5725</td>
+            </tr>
+            
+            <tr>
+                <td>rh</td>
+                <td>21</td>
+                <td>4.8764</td>
+                <td>6.6131</td>
+            </tr>
+            
+            <tr>
+                <td>rh</td>
+                <td>22</td>
+                <td>4.8962</td>
+                <td>6.6427</td>
+            </tr>
+            
+            <tr>
+                <td>rh</td>
+                <td>23</td>
+                <td>4.9133</td>
+                <td>6.6772</td>
+            </tr>
+            
+            <tr>
+                <td>rh</td>
+                <td>24</td>
+                <td>4.9848</td>
+                <td>6.7639</td>
+            </tr>
+            
+            <tr>
+                <td>rh</td>
+                <td>25</td>
+                <td>4.9879</td>
+                <td>6.8164</td>
+            </tr>
+            
+            <tr>
+                <td>rh</td>
+                <td>26</td>
+                <td>5.0185</td>
+                <td>6.8821</td>
+            </tr>
+            
+            <tr>
+                <td>rh</td>
+                <td>27</td>
+                <td>5.1287</td>
+                <td>7.0247</td>
+            </tr>
+            
+            <tr>
+                <td>rh</td>
+                <td>28</td>
+                <td>5.2860</td>
+                <td>7.1736</td>
+            </tr>
+            
+            <tr>
+                <td>rh</td>
+                <td>29</td>
+                <td>5.3196</td>
+                <td>7.2069</td>
+            </tr>
+            
+            <tr>
+                <td>rh</td>
+                <td>30</td>
+                <td>5.2997</td>
+                <td>7.1973</td>
+            </tr>
+            
+            <tr>
+                <td>rh</td>
+                <td>31</td>
+                <td>5.3310</td>
+                <td>7.2160</td>
+            </tr>
+            
+            <tr>
+                <td>rh</td>
+                <td>32</td>
+                <td>5.2650</td>
+                <td>7.1858</td>
+            </tr>
+            
+            <tr>
+                <td>rh</td>
+                <td>33</td>
+                <td>5.4202</td>
+                <td>7.3329</td>
+            </tr>
+            
+            <tr>
+                <td>rh</td>
+                <td>34</td>
+                <td>5.4884</td>
+                <td>7.3702</td>
+            </tr>
+            
+            <tr>
+                <td>rh</td>
+                <td>35</td>
+                <td>5.5280</td>
+                <td>7.3977</td>
+            </tr>
+            
+            <tr>
+                <td>rh</td>
+                <td>36</td>
+                <td>5.6072</td>
+                <td>7.4810</td>
+            </tr>
+            
+            <tr>
+                <td>rh</td>
+                <td>37</td>
+                <td>5.6250</td>
+                <td>7.5269</td>
+            </tr>
+            
+            <tr>
+                <td>rh</td>
+                <td>38</td>
+                <td>5.6961</td>
+                <td>7.6092</td>
+            </tr>
+            
+            <tr>
+                <td>rh</td>
+                <td>39</td>
+                <td>5.7942</td>
+                <td>7.7084</td>
+            </tr>
+            
+            <tr>
+                <td>rh</td>
+                <td>40</td>
+                <td>5.8441</td>
+                <td>7.7698</td>
+            </tr>
+            
+            <tr>
+                <td>rh</td>
+                <td>41</td>
+                <td>5.8532</td>
+                <td>7.8057</td>
+            </tr>
+            
+            <tr>
+                <td>rh</td>
+                <td>42</td>
+                <td>5.9144</td>
+                <td>7.8872</td>
+            </tr>
+            
+            <tr>
+                <td>rh</td>
+                <td>43</td>
+                <td>6.0321</td>
+                <td>8.0065</td>
+            </tr>
+            
+            <tr>
+                <td>rh</td>
+                <td>44</td>
+                <td>6.2175</td>
+                <td>8.1865</td>
+            </tr>
+            
+            <tr>
+                <td>rh</td>
+                <td>45</td>
+                <td>6.3111</td>
+                <td>8.2818</td>
+            </tr>
+            
+            <tr>
+                <td>rh</td>
+                <td>46</td>
+                <td>6.2870</td>
+                <td>8.2906</td>
+            </tr>
+            
+            <tr>
+                <td>rh</td>
+                <td>47</td>
+                <td>6.2736</td>
+                <td>8.2987</td>
+            </tr>
+            
+            <tr>
+                <td>rh</td>
+                <td>48</td>
+                <td>6.2458</td>
+                <td>8.3023</td>
+            </tr>
+            
+            <tr>
+                <td>rh</td>
+                <td>49</td>
+                <td>6.2323</td>
+                <td>8.3325</td>
+            </tr>
+            
+            <tr>
+                <td>rh</td>
+                <td>50</td>
+                <td>6.2234</td>
+                <td>8.3405</td>
+            </tr>
+            
+            <tr>
+                <td>rh</td>
+                <td>51</td>
+                <td>6.2971</td>
+                <td>8.4118</td>
+            </tr>
+            
+            <tr>
+                <td>rh</td>
+                <td>52</td>
+                <td>6.3450</td>
+                <td>8.4506</td>
+            </tr>
+            
+            <tr>
+                <td>rh</td>
+                <td>53</td>
+                <td>6.4253</td>
+                <td>8.5029</td>
+            </tr>
+            
+            <tr>
+                <td>rh</td>
+                <td>54</td>
+                <td>6.4683</td>
+                <td>8.5471</td>
+            </tr>
+            
+            <tr>
+                <td>rh</td>
+                <td>55</td>
+                <td>6.5373</td>
+                <td>8.5903</td>
+            </tr>
+            
+            <tr>
+                <td>rh</td>
+                <td>56</td>
+                <td>6.5100</td>
+                <td>8.5823</td>
+            </tr>
+            
+            <tr>
+                <td>rh</td>
+                <td>57</td>
+                <td>6.6383</td>
+                <td>8.7036</td>
+            </tr>
+            
+            <tr>
+                <td>rh</td>
+                <td>58</td>
+                <td>6.5745</td>
+                <td>8.6249</td>
+            </tr>
+            
+            <tr>
+                <td>rh</td>
+                <td>59</td>
+                <td>6.5343</td>
+                <td>8.5632</td>
+            </tr>
+            
+            <tr>
+                <td>rh</td>
+                <td>60</td>
+                <td>6.5182</td>
+                <td>8.5540</td>
+            </tr>
+            
+            <tr>
+                <td>rh</td>
+                <td>61</td>
+                <td>6.4984</td>
+                <td>8.5781</td>
+            </tr>
+            
+            <tr>
+                <td>rh</td>
+                <td>62</td>
+                <td>6.5186</td>
+                <td>8.6311</td>
+            </tr>
+            
+            <tr>
+                <td>rh</td>
+                <td>63</td>
+                <td>6.5993</td>
+                <td>8.7205</td>
+            </tr>
+            
+            <tr>
+                <td>rh</td>
+                <td>64</td>
+                <td>6.6476</td>
+                <td>8.7669</td>
+            </tr>
+            
+            <tr>
+                <td>rh</td>
+                <td>65</td>
+                <td>6.6496</td>
+                <td>8.7790</td>
+            </tr>
+            
+            <tr>
+                <td>rh</td>
+                <td>66</td>
+                <td>6.7369</td>
+                <td>8.8890</td>
+            </tr>
+            
+            <tr>
+                <td>rh</td>
+                <td>67</td>
+                <td>6.7610</td>
+                <td>8.9362</td>
+            </tr>
+            
+            <tr>
+                <td>rh</td>
+                <td>68</td>
+                <td>6.8984</td>
+                <td>9.0703</td>
+            </tr>
+            
+            <tr>
+                <td>rh</td>
+                <td>69</td>
+                <td>6.9122</td>
+                <td>9.0989</td>
+            </tr>
+            
+            <tr>
+                <td>rh</td>
+                <td>70</td>
+                <td>6.9672</td>
+                <td>9.1508</td>
+            </tr>
+            
+            <tr>
+                <td>rh</td>
+                <td>71</td>
+                <td>6.9812</td>
+                <td>9.1582</td>
+            </tr>
+            
+            <tr>
+                <td>rh</td>
+                <td>72</td>
+                <td>6.9635</td>
+                <td>9.1473</td>
+            </tr>
+            
+            <tr>
+                <td>rh</td>
+                <td>73</td>
+                <td>6.9441</td>
+                <td>9.1371</td>
+            </tr>
+            
+            <tr>
+                <td>rh</td>
+                <td>74</td>
+                <td>6.9902</td>
+                <td>9.1722</td>
+            </tr>
+            
+            <tr>
+                <td>rh</td>
+                <td>75</td>
+                <td>7.0123</td>
+                <td>9.1938</td>
+            </tr>
+            
+            <tr>
+                <td>rh</td>
+                <td>76</td>
+                <td>7.0238</td>
+                <td>9.1824</td>
+            </tr>
+            
+            <tr>
+                <td>rh</td>
+                <td>77</td>
+                <td>7.0891</td>
+                <td>9.2247</td>
+            </tr>
+            
+            <tr>
+                <td>rh</td>
+                <td>78</td>
+                <td>7.1006</td>
+                <td>9.2337</td>
+            </tr>
+            
+            <tr>
+                <td>rh</td>
+                <td>79</td>
+                <td>7.1483</td>
+                <td>9.2545</td>
+            </tr>
+            
+            <tr>
+                <td>rh</td>
+                <td>80</td>
+                <td>7.1063</td>
+                <td>9.2186</td>
+            </tr>
+            
+            <tr>
+                <td>rh</td>
+                <td>81</td>
+                <td>7.1841</td>
+                <td>9.2947</td>
+            </tr>
+            
+            <tr>
+                <td>rh</td>
+                <td>82</td>
+                <td>7.1716</td>
+                <td>9.2594</td>
+            </tr>
+            
+            <tr>
+                <td>rh</td>
+                <td>83</td>
+                <td>7.2060</td>
+                <td>9.2691</td>
+            </tr>
+            
+            <tr>
+                <td>rh</td>
+                <td>84</td>
+                <td>7.3050</td>
+                <td>9.3488</td>
+            </tr>
+            
+            <tr>
+                <td>rh</td>
+                <td>85</td>
+                <td>7.2914</td>
+                <td>9.3691</td>
+            </tr>
+            
+            <tr>
+                <td>rh</td>
+                <td>86</td>
+                <td>7.2674</td>
+                <td>9.3754</td>
+            </tr>
+            
+            <tr>
+                <td>rh</td>
+                <td>87</td>
+                <td>7.3008</td>
+                <td>9.4384</td>
+            </tr>
+            
+            <tr>
+                <td>rh</td>
+                <td>88</td>
+                <td>7.2741</td>
+                <td>9.4576</td>
+            </tr>
+            
+            <tr>
+                <td>rh</td>
+                <td>89</td>
+                <td>7.2943</td>
+                <td>9.5058</td>
+            </tr>
+            
+            <tr>
+                <td>rh</td>
+                <td>90</td>
+                <td>7.3730</td>
+                <td>9.6019</td>
+            </tr>
+            
+            <tr>
+                <td>rh</td>
+                <td>91</td>
+                <td>7.3863</td>
+                <td>9.6099</td>
+            </tr>
+            
+            <tr>
+                <td>rh</td>
+                <td>92</td>
+                <td>7.4185</td>
+                <td>9.6439</td>
+            </tr>
+            
+            <tr>
+                <td>rh</td>
+                <td>93</td>
+                <td>7.4377</td>
+                <td>9.6728</td>
+            </tr>
+            
+            <tr>
+                <td>rh</td>
+                <td>94</td>
+                <td>7.4199</td>
+                <td>9.6580</td>
+            </tr>
+            
+            <tr>
+                <td>rh</td>
+                <td>95</td>
+                <td>7.4419</td>
+                <td>9.6510</td>
+            </tr>
+            
+            <tr>
+                <td>rh</td>
+                <td>96</td>
+                <td>7.4262</td>
+                <td>9.6221</td>
+            </tr>
+            
+            <tr>
+                <td>ssrd_wm2</td>
+                <td>1</td>
+                <td>10.1802</td>
+                <td>17.7564</td>
+            </tr>
+            
+            <tr>
+                <td>ssrd_wm2</td>
+                <td>2</td>
+                <td>10.8162</td>
+                <td>20.5286</td>
+            </tr>
+            
+            <tr>
+                <td>ssrd_wm2</td>
+                <td>3</td>
+                <td>10.5573</td>
+                <td>22.7484</td>
+            </tr>
+            
+            <tr>
+                <td>ssrd_wm2</td>
+                <td>4</td>
+                <td>11.9265</td>
+                <td>24.9453</td>
+            </tr>
+            
+            <tr>
+                <td>ssrd_wm2</td>
+                <td>5</td>
+                <td>12.8236</td>
+                <td>25.8323</td>
+            </tr>
+            
+            <tr>
+                <td>ssrd_wm2</td>
+                <td>6</td>
+                <td>13.5778</td>
+                <td>26.6755</td>
+            </tr>
+            
+            <tr>
+                <td>ssrd_wm2</td>
+                <td>7</td>
+                <td>14.9540</td>
+                <td>27.6908</td>
+            </tr>
+            
+            <tr>
+                <td>ssrd_wm2</td>
+                <td>8</td>
+                <td>14.3039</td>
+                <td>27.4629</td>
+            </tr>
+            
+            <tr>
+                <td>ssrd_wm2</td>
+                <td>9</td>
+                <td>15.0159</td>
+                <td>27.7014</td>
+            </tr>
+            
+            <tr>
+                <td>ssrd_wm2</td>
+                <td>10</td>
+                <td>16.5919</td>
+                <td>28.5934</td>
+            </tr>
+            
+            <tr>
+                <td>ssrd_wm2</td>
+                <td>11</td>
+                <td>15.8753</td>
+                <td>28.3686</td>
+            </tr>
+            
+            <tr>
+                <td>ssrd_wm2</td>
+                <td>12</td>
+                <td>15.1265</td>
+                <td>27.9951</td>
+            </tr>
+            
+            <tr>
+                <td>ssrd_wm2</td>
+                <td>13</td>
+                <td>14.5711</td>
+                <td>27.9922</td>
+            </tr>
+            
+            <tr>
+                <td>ssrd_wm2</td>
+                <td>14</td>
+                <td>14.9162</td>
+                <td>28.0284</td>
+            </tr>
+            
+            <tr>
+                <td>ssrd_wm2</td>
+                <td>15</td>
+                <td>14.2579</td>
+                <td>27.9061</td>
+            </tr>
+            
+            <tr>
+                <td>ssrd_wm2</td>
+                <td>16</td>
+                <td>13.5934</td>
+                <td>28.0884</td>
+            </tr>
+            
+            <tr>
+                <td>ssrd_wm2</td>
+                <td>17</td>
+                <td>13.9065</td>
+                <td>28.1915</td>
+            </tr>
+            
+            <tr>
+                <td>ssrd_wm2</td>
+                <td>18</td>
+                <td>14.4517</td>
+                <td>28.8483</td>
+            </tr>
+            
+            <tr>
+                <td>ssrd_wm2</td>
+                <td>19</td>
+                <td>15.3103</td>
+                <td>29.2094</td>
+            </tr>
+            
+            <tr>
+                <td>ssrd_wm2</td>
+                <td>20</td>
+                <td>14.5745</td>
+                <td>28.6634</td>
+            </tr>
+            
+            <tr>
+                <td>ssrd_wm2</td>
+                <td>21</td>
+                <td>14.1975</td>
+                <td>27.9001</td>
+            </tr>
+            
+            <tr>
+                <td>ssrd_wm2</td>
+                <td>22</td>
+                <td>13.4696</td>
+                <td>27.5459</td>
+            </tr>
+            
+            <tr>
+                <td>ssrd_wm2</td>
+                <td>23</td>
+                <td>14.6957</td>
+                <td>28.1660</td>
+            </tr>
+            
+            <tr>
+                <td>ssrd_wm2</td>
+                <td>24</td>
+                <td>14.3933</td>
+                <td>27.9709</td>
+            </tr>
+            
+            <tr>
+                <td>ssrd_wm2</td>
+                <td>25</td>
+                <td>14.2161</td>
+                <td>27.9386</td>
+            </tr>
+            
+            <tr>
+                <td>ssrd_wm2</td>
+                <td>26</td>
+                <td>13.7188</td>
+                <td>27.7410</td>
+            </tr>
+            
+            <tr>
+                <td>ssrd_wm2</td>
+                <td>27</td>
+                <td>13.3180</td>
+                <td>27.7014</td>
+            </tr>
+            
+            <tr>
+                <td>ssrd_wm2</td>
+                <td>28</td>
+                <td>14.3587</td>
+                <td>28.3542</td>
+            </tr>
+            
+            <tr>
+                <td>ssrd_wm2</td>
+                <td>29</td>
+                <td>14.1846</td>
+                <td>28.4163</td>
+            </tr>
+            
+            <tr>
+                <td>ssrd_wm2</td>
+                <td>30</td>
+                <td>15.4431</td>
+                <td>29.3516</td>
+            </tr>
+            
+            <tr>
+                <td>ssrd_wm2</td>
+                <td>31</td>
+                <td>16.4820</td>
+                <td>30.1268</td>
+            </tr>
+            
+            <tr>
+                <td>ssrd_wm2</td>
+                <td>32</td>
+                <td>15.1045</td>
+                <td>29.3238</td>
+            </tr>
+            
+            <tr>
+                <td>ssrd_wm2</td>
+                <td>33</td>
+                <td>17.8978</td>
+                <td>30.6041</td>
+            </tr>
+            
+            <tr>
+                <td>ssrd_wm2</td>
+                <td>34</td>
+                <td>20.4482</td>
+                <td>32.3004</td>
+            </tr>
+            
+            <tr>
+                <td>ssrd_wm2</td>
+                <td>35</td>
+                <td>18.5503</td>
+                <td>31.3815</td>
+            </tr>
+            
+            <tr>
+                <td>ssrd_wm2</td>
+                <td>36</td>
+                <td>17.4862</td>
+                <td>30.6427</td>
+            </tr>
+            
+            <tr>
+                <td>ssrd_wm2</td>
+                <td>37</td>
+                <td>15.2386</td>
+                <td>29.5529</td>
+            </tr>
+            
+            <tr>
+                <td>ssrd_wm2</td>
+                <td>38</td>
+                <td>14.7630</td>
+                <td>28.9576</td>
+            </tr>
+            
+            <tr>
+                <td>ssrd_wm2</td>
+                <td>39</td>
+                <td>14.4870</td>
+                <td>28.8824</td>
+            </tr>
+            
+            <tr>
+                <td>ssrd_wm2</td>
+                <td>40</td>
+                <td>13.7359</td>
+                <td>28.8897</td>
+            </tr>
+            
+            <tr>
+                <td>ssrd_wm2</td>
+                <td>41</td>
+                <td>13.4726</td>
+                <td>28.8371</td>
+            </tr>
+            
+            <tr>
+                <td>ssrd_wm2</td>
+                <td>42</td>
+                <td>14.3599</td>
+                <td>29.5234</td>
+            </tr>
+            
+            <tr>
+                <td>ssrd_wm2</td>
+                <td>43</td>
+                <td>14.7002</td>
+                <td>29.7960</td>
+            </tr>
+            
+            <tr>
+                <td>ssrd_wm2</td>
+                <td>44</td>
+                <td>14.0498</td>
+                <td>29.3357</td>
+            </tr>
+            
+            <tr>
+                <td>ssrd_wm2</td>
+                <td>45</td>
+                <td>13.3568</td>
+                <td>28.6095</td>
+            </tr>
+            
+            <tr>
+                <td>ssrd_wm2</td>
+                <td>46</td>
+                <td>14.1602</td>
+                <td>28.8742</td>
+            </tr>
+            
+            <tr>
+                <td>ssrd_wm2</td>
+                <td>47</td>
+                <td>15.1003</td>
+                <td>29.2251</td>
+            </tr>
+            
+            <tr>
+                <td>ssrd_wm2</td>
+                <td>48</td>
+                <td>14.1845</td>
+                <td>28.7052</td>
+            </tr>
+            
+            <tr>
+                <td>ssrd_wm2</td>
+                <td>49</td>
+                <td>13.9860</td>
+                <td>28.4911</td>
+            </tr>
+            
+            <tr>
+                <td>ssrd_wm2</td>
+                <td>50</td>
+                <td>14.1422</td>
+                <td>28.4595</td>
+            </tr>
+            
+            <tr>
+                <td>ssrd_wm2</td>
+                <td>51</td>
+                <td>13.7275</td>
+                <td>28.4985</td>
+            </tr>
+            
+            <tr>
+                <td>ssrd_wm2</td>
+                <td>52</td>
+                <td>14.2088</td>
+                <td>28.8440</td>
+            </tr>
+            
+            <tr>
+                <td>ssrd_wm2</td>
+                <td>53</td>
+                <td>14.1562</td>
+                <td>28.7284</td>
+            </tr>
+            
+            <tr>
+                <td>ssrd_wm2</td>
+                <td>54</td>
+                <td>14.8501</td>
+                <td>29.2694</td>
+            </tr>
+            
+            <tr>
+                <td>ssrd_wm2</td>
+                <td>55</td>
+                <td>16.0528</td>
+                <td>30.0070</td>
+            </tr>
+            
+            <tr>
+                <td>ssrd_wm2</td>
+                <td>56</td>
+                <td>15.1231</td>
+                <td>29.5652</td>
+            </tr>
+            
+            <tr>
+                <td>ssrd_wm2</td>
+                <td>57</td>
+                <td>16.4880</td>
+                <td>30.1926</td>
+            </tr>
+            
+            <tr>
+                <td>ssrd_wm2</td>
+                <td>58</td>
+                <td>18.0067</td>
+                <td>31.1080</td>
+            </tr>
+            
+            <tr>
+                <td>ssrd_wm2</td>
+                <td>59</td>
+                <td>17.2599</td>
+                <td>31.0560</td>
+            </tr>
+            
+            <tr>
+                <td>ssrd_wm2</td>
+                <td>60</td>
+                <td>16.9513</td>
+                <td>30.8729</td>
+            </tr>
+            
+            <tr>
+                <td>ssrd_wm2</td>
+                <td>61</td>
+                <td>16.2767</td>
+                <td>30.5446</td>
+            </tr>
+            
+            <tr>
+                <td>ssrd_wm2</td>
+                <td>62</td>
+                <td>15.6367</td>
+                <td>29.7645</td>
+            </tr>
+            
+            <tr>
+                <td>ssrd_wm2</td>
+                <td>63</td>
+                <td>15.0069</td>
+                <td>29.2540</td>
+            </tr>
+            
+            <tr>
+                <td>ssrd_wm2</td>
+                <td>64</td>
+                <td>13.9705</td>
+                <td>29.0003</td>
+            </tr>
+            
+            <tr>
+                <td>ssrd_wm2</td>
+                <td>65</td>
+                <td>14.3937</td>
+                <td>29.1883</td>
+            </tr>
+            
+            <tr>
+                <td>ssrd_wm2</td>
+                <td>66</td>
+                <td>14.2215</td>
+                <td>29.3647</td>
+            </tr>
+            
+            <tr>
+                <td>ssrd_wm2</td>
+                <td>67</td>
+                <td>13.8992</td>
+                <td>29.3325</td>
+            </tr>
+            
+            <tr>
+                <td>ssrd_wm2</td>
+                <td>68</td>
+                <td>13.1638</td>
+                <td>28.8406</td>
+            </tr>
+            
+            <tr>
+                <td>ssrd_wm2</td>
+                <td>69</td>
+                <td>12.9881</td>
+                <td>28.6701</td>
+            </tr>
+            
+            <tr>
+                <td>ssrd_wm2</td>
+                <td>70</td>
+                <td>14.9824</td>
+                <td>29.5000</td>
+            </tr>
+            
+            <tr>
+                <td>ssrd_wm2</td>
+                <td>71</td>
+                <td>15.9332</td>
+                <td>30.1346</td>
+            </tr>
+            
+            <tr>
+                <td>ssrd_wm2</td>
+                <td>72</td>
+                <td>16.0088</td>
+                <td>29.7743</td>
+            </tr>
+            
+            <tr>
+                <td>ssrd_wm2</td>
+                <td>73</td>
+                <td>15.4370</td>
+                <td>29.3765</td>
+            </tr>
+            
+            <tr>
+                <td>ssrd_wm2</td>
+                <td>74</td>
+                <td>14.8961</td>
+                <td>29.2417</td>
+            </tr>
+            
+            <tr>
+                <td>ssrd_wm2</td>
+                <td>75</td>
+                <td>14.9097</td>
+                <td>29.5910</td>
+            </tr>
+            
+            <tr>
+                <td>ssrd_wm2</td>
+                <td>76</td>
+                <td>15.3620</td>
+                <td>29.9398</td>
+            </tr>
+            
+            <tr>
+                <td>ssrd_wm2</td>
+                <td>77</td>
+                <td>15.1316</td>
+                <td>29.8065</td>
+            </tr>
+            
+            <tr>
+                <td>ssrd_wm2</td>
+                <td>78</td>
+                <td>15.0831</td>
+                <td>29.8114</td>
+            </tr>
+            
+            <tr>
+                <td>ssrd_wm2</td>
+                <td>79</td>
+                <td>15.6037</td>
+                <td>30.1912</td>
+            </tr>
+            
+            <tr>
+                <td>ssrd_wm2</td>
+                <td>80</td>
+                <td>14.5033</td>
+                <td>29.6376</td>
+            </tr>
+            
+            <tr>
+                <td>ssrd_wm2</td>
+                <td>81</td>
+                <td>16.0404</td>
+                <td>30.1190</td>
+            </tr>
+            
+            <tr>
+                <td>ssrd_wm2</td>
+                <td>82</td>
+                <td>18.2162</td>
+                <td>31.3822</td>
+            </tr>
+            
+            <tr>
+                <td>ssrd_wm2</td>
+                <td>83</td>
+                <td>17.7098</td>
+                <td>31.5186</td>
+            </tr>
+            
+            <tr>
+                <td>ssrd_wm2</td>
+                <td>84</td>
+                <td>17.4121</td>
+                <td>31.3035</td>
+            </tr>
+            
+            <tr>
+                <td>ssrd_wm2</td>
+                <td>85</td>
+                <td>16.7984</td>
+                <td>31.0412</td>
+            </tr>
+            
+            <tr>
+                <td>ssrd_wm2</td>
+                <td>86</td>
+                <td>15.6203</td>
+                <td>30.0315</td>
+            </tr>
+            
+            <tr>
+                <td>ssrd_wm2</td>
+                <td>87</td>
+                <td>15.3239</td>
+                <td>29.7874</td>
+            </tr>
+            
+            <tr>
+                <td>ssrd_wm2</td>
+                <td>88</td>
+                <td>14.1194</td>
+                <td>29.3721</td>
+            </tr>
+            
+            <tr>
+                <td>ssrd_wm2</td>
+                <td>89</td>
+                <td>13.7224</td>
+                <td>29.1848</td>
+            </tr>
+            
+            <tr>
+                <td>ssrd_wm2</td>
+                <td>90</td>
+                <td>13.7906</td>
+                <td>29.1900</td>
+            </tr>
+            
+            <tr>
+                <td>ssrd_wm2</td>
+                <td>91</td>
+                <td>14.0575</td>
+                <td>29.2223</td>
+            </tr>
+            
+            <tr>
+                <td>ssrd_wm2</td>
+                <td>92</td>
+                <td>14.0089</td>
+                <td>29.1022</td>
+            </tr>
+            
+            <tr>
+                <td>ssrd_wm2</td>
+                <td>93</td>
+                <td>14.4044</td>
+                <td>29.4195</td>
+            </tr>
+            
+            <tr>
+                <td>ssrd_wm2</td>
+                <td>94</td>
+                <td>16.2463</td>
+                <td>30.7183</td>
+            </tr>
+            
+            <tr>
+                <td>ssrd_wm2</td>
+                <td>95</td>
+                <td>16.9417</td>
+                <td>31.2104</td>
+            </tr>
+            
+            <tr>
+                <td>ssrd_wm2</td>
+                <td>96</td>
+                <td>17.2679</td>
+                <td>31.0169</td>
+            </tr>
+            
+    </table>
+    
+    </div>
+    </div>
+
+    <h2>Predictive Visualization</h2>
+    <div class="card">
+        <h3>TCN Model results</h3>
+        <div class="img-container">
+            <img src="test_015_tcn_predictions.png" alt="TCN Predictions">
+        </div>
+    </div>
+
+
+    <div style="page-break-before: always;">
+        <h2>Teaching process (Logs)</h2>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+        <div class="card" style="font-size: 12px;">
+            
+    <h3>TCN Epoch log</h3>
+    <table>
+        <tr>
+            <th>Epoch</th>
+            <th>Loss</th>
+            <th>Idő [s]</th>
+        </tr>
+        
+        <tr>
+            <td>1</td>
+            <td>0.003420</td>
+            <td>135.12 s</td>
+        </tr>
+        
+        <tr>
+            <td>2</td>
+            <td>0.002865</td>
+            <td>134.51 s</td>
+        </tr>
+        
+        <tr>
+            <td>3</td>
+            <td>0.002781</td>
+            <td>134.36 s</td>
+        </tr>
+        
+        <tr>
+            <td>4</td>
+            <td>0.002723</td>
+            <td>134.47 s</td>
+        </tr>
+        
+        <tr>
+            <td>5</td>
+            <td>0.002676</td>
+            <td>134.40 s</td>
+        </tr>
+        
+        <tr>
+            <td>6</td>
+            <td>0.002631</td>
+            <td>134.20 s</td>
+        </tr>
+        
+        <tr>
+            <td>7</td>
+            <td>0.002596</td>
+            <td>134.48 s</td>
+        </tr>
+        
+        <tr>
+            <td>8</td>
+            <td>0.002560</td>
+            <td>134.58 s</td>
+        </tr>
+        
+        <tr>
+            <td>9</td>
+            <td>0.002527</td>
+            <td>134.22 s</td>
+        </tr>
+        
+        <tr>
+            <td>10</td>
+            <td>0.002497</td>
+            <td>134.26 s</td>
+        </tr>
+        
+    </table>
+    
+        </div>
+        </div>
+    </div>
+
+    <div class="footer-text no-print">
+        Document generated: 2026-04-29 11:37 | University of Miskolc - Institute of Physics and Electrical Engineering | Bagi Béla
+    </div>
+
+    </body>
+    </html>
+    

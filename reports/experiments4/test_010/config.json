@@ -1,0 +1,34 @@
+{
+  "features": [
+    "temp_c",
+    "dewpoint_c",
+    "rh",
+    "wind_speed",
+    "wind_dir",
+    "sp_hpa",
+    "tp",
+    "skt_c",
+    "ssrd_wm2",
+    "fg10_kmh",
+    "hour_sin",
+    "hour_cos",
+    "year_sin",
+    "year_cos",
+    "time_linear"
+  ],
+  "target_col": [
+    "temp_c",
+    "rh",
+    "ssrd_wm2"
+  ],
+  "extra_cols": [
+    "hour_sin",
+    "hour_cos",
+    "year_sin",
+    "year_cos",
+    "time_linear"
+  ],
+  "input_window": 168,
+  "output_horizon": 24,
+  "mask_prob": 0.0
+}
